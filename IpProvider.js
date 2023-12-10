@@ -1,10 +1,9 @@
-// IpContext.js
 import { createContext, useContext, useState } from 'react';
 
 const IpContext = createContext();
 
 export const IpProvider = ({ children }) => {
-  const [ipAddress, setIpAddress] = useState('10.66.37.185');
+  const [ipAddress, setIpAddress] = useState('10.67.27.123');
 
   const setIp = (newIp) => {
     setIpAddress(newIp);

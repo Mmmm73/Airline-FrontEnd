@@ -41,33 +41,20 @@ const Bookings = () => {
   const { ipAddress, setIp } = useIp();
   const isFocused = useIsFocused();
 
-  console.log("Bookings.js: 001 ", isFocused);
-//  if(isFocused == true){
-//    console.log("LOLOIONDO");
-//    getJwtTokenTwo();
-//  }
-
   useEffect(() => {
-    console.log("Bookings.js 2");
     const getJwtToken = async () => {
       try {
-        console.log("Bookings.js 5");
-        console.log("jwtToken 1");
         const token = await AsyncStorage.getItem('usertoken');
-        console.log("jwtToken 2", token);
         fetchFLighReservations(token);
         setJwtToken(token);
-        console.log("jwtToken", token);
-
-        
+      
       } catch (error) {
         console.error('Error fetching jwtToken', error);
       }
     };
 
     const fetchFLighReservations = async (jwtToken) => {
-      console.log("jwtToken 3", jwtToken);
-      console.log("ipAddress", ipAddress);
+
       try {
         const apiUrl = `http://${ipAddress}:3000/nodejs/getFlightReservations`;
         const response = await fetch(apiUrl, {
@@ -75,7 +62,6 @@ const Bookings = () => {
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${jwtToken}`,
-            // You may need to include authorization headers or other headers as needed
           },
         });
   
@@ -84,14 +70,12 @@ const Bookings = () => {
         }
   
         const responseData = await response.json();
-//        console.log("responseData.data: ", responseData.data);
         x = responseData.data;
-        console.log("responseData.dataaaaaaaaaaaaaaaaaaaaaaaaa: ");
-        setFlightReservations(responseData.data); // Assuming your data is under the 'data' key
+
+        setFlightReservations(responseData.data); 
   
       } catch (error) {
         console.error('Error fetching data:', error);
-        // Handle error appropriately
       }
     };
 
@@ -100,32 +84,23 @@ const Bookings = () => {
 if (isFocused) {
   getJwtToken();
 }
-  }, []);
+  }, [isFocused]);
 
   const navigateToBookingDetails = async (flight) => {
-    console.log("navigateToBookingDetails!!")
     navigation.navigate('BookingDetails', { flight});
   };
 
   async function getJwtTokenTwo(){
     try {
-      console.log("Bookings.js 5");
-      console.log("jwtToken 1");
       const token = await AsyncStorage.getItem('usertoken');
-      console.log("jwtToken 2", token);
      fetchFLighReservationsTwo(token);
-//      setJwtToken(token);
-//      console.log("jwtToken", token);
 
-      
     } catch (error) {
       console.error('Error fetching jwtToken', error);
     }
   };
 
   const fetchFLighReservationsTwo = async (jwtToken) => {
-    console.log("jwtToken 3", jwtToken);
-    console.log("ipAddress", ipAddress);
     try {
       const apiUrl = `http://${ipAddress}:3000/nodejs/getFlightReservations`;
       const response = await fetch(apiUrl, {
@@ -133,7 +108,6 @@ if (isFocused) {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${jwtToken}`,
-          // You may need to include authorization headers or other headers as needed
         },
       });
 
@@ -142,22 +116,19 @@ if (isFocused) {
       }
 
       const responseData = await response.json();
-//        console.log("responseData.data: ", responseData.data);
       x = responseData.data;
       console.log("responseData.dataaaaaaaaaaaaaaaaaaaaaaaaa: ");
-      setFlightReservations(responseData.data); // Assuming your data is under the 'data' key
-//      console.log("DONE!: ");
+      setFlightReservations(responseData.data); 
 
     } catch (error) {
       console.error('Error fetching data:', error);
-      // Handle error appropriately
+
     }
   };
 
 
 
   const renderFlightItem = ({ item }) => {
-//    console.log("Flight Item:", item);
     return (
       <TouchableOpacity onPress={() => navigateToBookingDetails(item)}>
 
@@ -169,7 +140,7 @@ if (isFocused) {
           <Text style={styles.restText}><Text >Carrier: </Text>{item.displaynameone}</Text>
           <Image
           source={{ uri: item.logourlone}}
-          style={{ width: 65, height: 65, marginLeft: 20 }} // Customize the width and height as needed
+          style={{ width: 65, height: 65, marginLeft: 20 }} 
           />
           
           {item.originstationcodetwo && (
@@ -188,7 +159,7 @@ if (isFocused) {
           {item.logourltwo && (
           <Image
           source={{ uri: item.logourltwo}}
-          style={{ width: 65, height: 65, marginLeft: 20 }} // Customize the width and height as needed
+          style={{ width: 65, height: 65, marginLeft: 20 }} 
           />
           )}
 
@@ -231,10 +202,8 @@ const styles = StyleSheet.create({
       marginLeft: 0,
       shadowColor: '#000',
       shadowOffset: { width: 5, height: 1 },
-//      shadowOpacity: 0.2,
-//      shadowRadius: 4,
       elevation: 1,
-      marginBottom: 20, // Add some margin between flight items
+      marginBottom: 20, 
     },
     bold: {
       fontWeight: 'bold',
@@ -263,7 +232,7 @@ const styles = StyleSheet.create({
       flex: 1,
     },
     imageColumn: {
-      marginLeft: 0, // Adjust as needed
+      marginLeft: 0, 
     },
   });
 

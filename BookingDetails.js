@@ -1,12 +1,8 @@
-//import { useNavigation } from '@react-navigation/native';
+
 import React from 'react';
 import { Text, View, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import QRCode from 'react-native-qrcode-svg';
-
-
-// Define a Stack Navigator
-//const Stack = createStackNavigator();
 
 const iataCityDictionary = {
   "JFK": "New York",
@@ -37,7 +33,7 @@ const BookingDetails =  ({ route }) => {
   const navigation = useNavigation();
   console.log("flight", flight);
   
-  // Define a function to render flight details
+  //function to render flight details
   const renderFlightDetails = () => {    
     const originStationCode = flight.originStationCode;
     const destinationStationCode = flight.destinationStationCode;
@@ -63,7 +59,7 @@ const BookingDetails =  ({ route }) => {
       <Text style={styles.restText}><Text style={styles.restTextTwo}>Total Price: </Text>{flight.totalprice}</Text>
       <Image
         source={{ uri: flight.logourlone}}
-        style={{ width: 65, height: 65 }} // Customize the width and height as needed
+        style={{ width: 65, height: 65 }} 
         />
 
 
@@ -83,15 +79,15 @@ const BookingDetails =  ({ route }) => {
         {flight.logourltwo && (
         <Image
         source={{ uri: flight.logourltwo}}
-        style={{ width: 65, height: 65 }} // Customize the width and height as needed
+        style={{ width: 65, height: 65 }}
         />
         )}
         <Text>
-          {'\n'} {/* Insert two line breaks for extra space */}
+          {'\n'} 
         </Text>
         
         <Text>
-          {'\n'} {/* Insert two line breaks for extra space */}
+          {'\n'} 
         </Text>
 
 
@@ -105,14 +101,14 @@ const BookingDetails =  ({ route }) => {
       
 
       <Text>
-      {'\n'} {/* Insert two line breaks for extra space */}
+      {'\n'} 
     </Text>
 
     </View>
   );
 };
 
-//<Button title="Pay" onPress={safaricomApiTesting} />
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,

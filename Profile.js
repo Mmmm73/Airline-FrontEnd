@@ -14,10 +14,7 @@ const Profile = () => {
   useEffect(() => {
     const getJwtToken = async () => {
       try {
-        console.log("jwtToken 1");
-        console.log("jwtToken 2");
         const token = await AsyncStorage.getItem('usertoken');
-        console.log("jwtToken 3", token);
         setJwtToken(token);
 
         const apiUrl = `http://${ipAddress}:3000/nodejs/getUserEmail`;
@@ -29,17 +26,13 @@ const Profile = () => {
           },
           body: JSON.stringify({ token }),
         });
-
-        console.log("response", response);
         
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
 
         const responseData = await response.json();
-        console.log("responseData: ", responseData.data);
 
-        // Assuming responseData contains the user email, update accordingly
         setUserEmail(responseData.data);
 
       } catch (error) {
@@ -53,7 +46,6 @@ const Profile = () => {
   
   const handleLogout = async () => {
     try {
-        console.log("handleLogoutxxxx", jwtToken);
         const apiUrl = `http://${ipAddress}:3000/nodejs/logout`;
 
         const response = await fetch(apiUrl, {
@@ -68,9 +60,6 @@ const Profile = () => {
           navigation.navigate('Login'); 
           await AsyncStorage.removeItem('usertoken');
         }
-
-        console.log("response", response);
-        console.log("response.ok", response.ok);
   
       } catch (error) {
 

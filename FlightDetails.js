@@ -1,10 +1,8 @@
-//import { useNavigation } from '@react-navigation/native';
+
 import React from 'react';
 import { Text, View, Button, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
-// Define a Stack Navigator
-//const Stack = createStackNavigator();
 const iataCityDictionary = {
   "JFK": "New York",
   "LAX": "Los Angeles",
@@ -33,12 +31,8 @@ const iataCityDictionary = {
 const FlightDetails =  ({ route }) => {
   const { flight, jwtToken } = route.params;
   const navigation = useNavigation();
-  console.log("flight", flight);
-  console.log("jwtToken", jwtToken);
   
   const safaricomApiTesting = async () => {
-//    let emailx = "popop";
-//    const jwtToken = await AsyncStorage.getItem('usertoken');
 
     const response = await fetch('http://192.168.100.2:3000/nodejs/paymentforflight', {
       method: 'POST',
@@ -48,23 +42,18 @@ const FlightDetails =  ({ route }) => {
       body: JSON.stringify({ flight, jwtToken}),
     });
 
-    console.log("response", response);
-    console.log("response.ok", response.ok);
-
     if(response.ok === true){
       navigation.navigate('Bookings');
     }
   };
 
   const enterPhoneNumber = async () => {
-    console.log("Route");
     navigation.navigate('PhoneNumber', {flight, jwtToken});
 
   }
 
-  // Define a function to render flight details
   const renderFlightDetails = () => {
-    // Extract flight details from the 'flight' object
+
     const originStationCode = flight.segments[0].legs[0].originStationCode;
     const destinationStationCode = flight.segments[0].legs[0].destinationStationCode;
     const departureDateTime = flight.segments[0].legs[0].departureDateTime;
@@ -89,7 +78,7 @@ const FlightDetails =  ({ route }) => {
         <Text style={styles.restText}><Text style={styles.restTextTwo}>Total Price: </Text>{totalPrice}</Text>
         <Image
           source={{ uri: logoUrl}}
-          style={{ width: 65, height: 65, marginTop: 5, marginBottom: 10}} // Customize the width and height as needed
+          style={{ width: 65, height: 65, marginTop: 5, marginBottom: 10}} 
           />
 
 
@@ -109,10 +98,9 @@ const FlightDetails =  ({ route }) => {
           {flight.segments[1]?.legs[0]?.operatingCarrier?.logoUrl && (
           <Image
           source={{ uri: flight.segments[1].legs[0].operatingCarrier.logoUrl}}
-          style={{ width: 65, height: 65 }} // Customize the width and height as needed
+          style={{ width: 65, height: 65 }} 
           />
           )}
-
 
     </View>
     );
@@ -130,7 +118,6 @@ const FlightDetails =  ({ route }) => {
   );
 };
 
-//<Button title="Pay" onPress={safaricomApiTesting} />
 const styles = StyleSheet.create({
     container: {
       flex: 1,
@@ -181,19 +168,3 @@ const styles = StyleSheet.create({
 
 export default FlightDetails;
 
-/*
-      <View style={styles.flightDetails}>
-        <Text>Origin: {originStationCode}</Text>
-        <Text>Destination: {destinationStationCode}</Text>
-        <Text>Departure Time: {departureDateTime}</Text>
-        <Text>Arrival Time: {arrivalDateTime}</Text>
-        <Text>Distance: {distanceInKM}</Text>
-        <Text>Plane Type: {equipmentId}</Text>
-        <Text>Operating Carrier: {operatingCarrier}</Text>
-        <Image
-          source={{ uri: logoUrl }}
-          style={styles.logoImage}
-        />
-        <Text>Total Price: {totalPrice}</Text>
-      </View>
- */

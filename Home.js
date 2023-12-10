@@ -4,7 +4,6 @@ import { StyleSheet, View, TextInput, Button, Text } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-
 import Search from './Search';
 import Profile from './Profile';
 import Bookings from './Bookings';
@@ -18,8 +17,6 @@ const Home = ({ route }) => {
     const Tab = createBottomTabNavigator();
     const Stack = createNativeStackNavigator();
     const {jwtToken } = route.params;
-    console.log("jwtTokenHome", jwtToken);
-        
 
   return (
     <Tab.Navigator
@@ -39,10 +36,10 @@ const Home = ({ route }) => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: '#45B39D', // Change the color when selected
+        activeTintColor: '#45B39D',
         inactiveTintColor: 'gray',
         labelStyle: {
-          fontSize: 12, // Adjust the font size of the labels
+          fontSize: 12,
         },
       }}
     >
@@ -68,16 +65,3 @@ const Home = ({ route }) => {
 
 
 export default Home;
-
-
-/*
-      <Tab.Screen name="BookingTab" options={{ headerShown: false }} >
-        {() => (
-          <Stack.Navigator>
-
-            <Stack.Screen name="Bookings" component={Bookings} options={{ headerShown: false }} />
-            <Stack.Screen name="BookingDetails" component={BookingDetails} />
-          </Stack.Navigator>
-        )}
-      </Tab.Screen>
-*/

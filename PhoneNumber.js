@@ -12,9 +12,7 @@ const PhoneNumber = ({ route }) => {
     const { ipAddress, setIp } = useIp();
 
     const flight = route.params.flight;  
-    console.log("flight: ", flight);
     const jwtToken = route.params.jwtToken;  
-    console.log("jwtToken: ", jwtToken);
 
     const submitPhoneNumber = async () => {
 
@@ -29,13 +27,10 @@ const PhoneNumber = ({ route }) => {
             },
             body: JSON.stringify({ flight, jwtToken, phoneNumber}),
         });
-        
-        console.log("response", response);
-        console.log("response.ok", response.ok);
+
         
         if(response.ok === true){
-          console.log("True6786876");
-//            navigation.navigate('Bookings');
+            navigation.navigate('Bookings');
             }
         };
         
@@ -84,7 +79,6 @@ const styles = StyleSheet.create({
     submitButton:{
       marginTop: 40,
       width: '75%',
-  //    marginRight: 20, 
     },
     buttonText: {
       padding: 10,

@@ -16,22 +16,22 @@ const Signup = () => {
     const { ipAddress, setIp } = useIp();
 
     const isEmailValid = (email) => {
-      // A simple email validation regex pattern
+
       const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
       return emailPattern.test(email);
     };
 
     const handleSignup = async () => {
-      console.log("YEZZ");
+
       if (!email || !password) {
-        // Check if email or password is empty
+
         setErrorMessage('Invalid email or password.');
         setIsErrorModalVisible(true);
         return;
       }
 
       if (!isEmailValid(email)) {
-        // Check if email is valid
+
         setErrorMessage('Invalid email or password.');
         setIsErrorModalVisible(true);
         return;
@@ -39,7 +39,7 @@ const Signup = () => {
 
        
       const apiUrl = `http://${ipAddress}:3000/nodejs/signup`;
-//      const apiUrl = `http://${ipAddress}:3000/nodejs/login`;
+
 
         try {
             console.log("email: ", email, "password: ",password);
@@ -51,21 +51,17 @@ const Signup = () => {
             body: JSON.stringify({ email, password }),
           });
 
-          console.log("response", response);
-          console.log("response.ok", response.ok);
-      
+
           if (response.ok) {
-            console.log("We Okay!");
+
             const jsonResponse = await response.json();
             const user = jsonResponse.user;
             const userid = user.userid;
             const useremail = user.useremail;
-            console.log("userid: ", userid);
-            console.log("useremail: ", useremail);
+
             navigation.navigate('Login');
 
           } else {
-            console.log("We Not Okay!");
             setErrorMessage('Email already in use');
             setIsErrorModalVisible(true);
 
@@ -78,8 +74,8 @@ const Signup = () => {
       };
 
       const navigateToLogin = () => {
-        // Navigate to the sign-up page
-        navigation.navigate('Login'); // Replace 'SignUp' with the name of your sign-up screen
+
+        navigation.navigate('Login'); 
       };
       
     

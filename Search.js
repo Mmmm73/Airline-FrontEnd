@@ -16,7 +16,6 @@ const Search = () => {
       try {
         const token = await AsyncStorage.getItem('usertoken');
         setJwtToken(token);
-        console.log("jwtToken", token);
       } catch (error) {
         console.error('Error fetching jwtToken', error);
       }
@@ -53,11 +52,6 @@ const Search = () => {
 
   let departurePointIATA = null;
   let arrivalPointIATA = null;
-  console.log("depaturePoint: ", departurePoint);
-  console.log("arrivalPoint: ", arrivalPoint);
-
-
-
 
   const iataCityDictionary = {
     "JFK": "New York",
@@ -87,7 +81,6 @@ const Search = () => {
   
 
   const handleNumberChange = (text) => {
-    // Use regular expressions to allow only numeric input
     const numericInput = text.replace(/[^0-9]/g, '');
     setNumberOfAdults(numericInput);
   };
@@ -100,184 +93,55 @@ const Search = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-//      body: JSON.stringify({ emailx}),
     });
-
-    console.log("response", response);
-    console.log("response.ok", response.ok);
   };
 
   const handleSearch = async () => {
-    console.log("depaturePoint:", departurePoint);
-    console.log("depaturePoint typeof :", typeof departurePoint);
-    console.log("arrivalPoint:", arrivalPoint);
-//    console.log("depatureDate1:", depatureDate);
-    console.log("returnDate1:", returnDate);
-  
-
-    console.log("typevalue: ", typevalue);
-    console.log("valueCOS: ", valueCOS);
-    console.log("numberOfAdults: ", numberOfAdults);
-
-    console.log("depatureDate depatureDate: ", depatureDate);
-    console.log("returnDate returnDate: ", returnDate);
-
-
-    console.log("departurePoint: ", departurePoint);
-    console.log("arrivalPoint: ", arrivalPoint);
-
 
     if(typevalue === 'ONE_WAY'){
       console.log('ONE_WAY ONE_WAY ONE_WAY');
-      console.log("departurePoint: ",  departurePoint);
 
       for (const iataCode in iataCityDictionary) {
-        console.log(`iataCityDictionary[iataCode]:`, iataCityDictionary[iataCode]);
-        console.log(`iataCityDictionary[iataCode] == depaturePoint:`, iataCityDictionary[iataCode] === departurePoint);
         if (iataCityDictionary[iataCode] === departurePoint.trim()) {
-          console.log("departurePoint: ", departurePoint);
           departurePointIATA = iataCode;
-          console.log(`IATA Code for ${departurePoint}: ${iataCode}`);
-          break; // Assuming you want to stop the loop once you find the first match.
+          break; 
         }
       }
 
       for (const iataCode in iataCityDictionary) {
         if (iataCityDictionary[iataCode] === arrivalPoint.trim()) {
           arrivalPointIATA = iataCode;
-          console.log(`IATA Code for ${arrivalPoint}: ${iataCode}`);
-          break; // Assuming you want to stop the loop once you find the first match.
+          break; 
         }
       }
 
       const date = new Date(depatureDate);
     
       const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so add 1
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
       const day = String(date.getDate()).padStart(2, '0');
-      const depatureDateformatted = `${year}-${month}-${day}`;
-      console.log("depatureDateformatted: ", depatureDateformatted);
-      console.log("numberOfAdults: ", numberOfAdults);
-      
-    
-
-      console.log("depaturePointIATA: ", departurePointIATA);
-      console.log("arrivalPointIATA: ", arrivalPointIATA);
-      
-/*      navigation.navigate('Flights', {
-        depaturePoint: departurePointIATA,
-        depatureDate: depatureDateformatted,
-        arrivalPoint: arrivalPointIATA,
-        typevalue: typevalue,
-        numberOfAdults: numberOfAdults,
-        valueCOS: valueCOS,
-      });*/
+      const depatureDateformatted = `${year}-${month}-${day}`;      
+  
       makeApiRequest();
     }
     else if(typevalue === 'ROUND_TRIP'){
-      console.log("AKASH! ");
 
       for (const iataCode in iataCityDictionary) {
-        console.log(`iataCityDictionary[iataCode]:`, iataCityDictionary[iataCode]);
-        console.log(`iataCityDictionary[iataCode] == depaturePoint:`, iataCityDictionary[iataCode] === departurePoint);
         if (iataCityDictionary[iataCode] === departurePoint.trim()) {
-          console.log("departurePoint: ", departurePoint);
           departurePointIATA = iataCode;
-          console.log(`IATA Code for ${departurePoint}: ${iataCode}`);
-          break; // Assuming you want to stop the loop once you find the first match.
+          break; 
         }
       }
 
       for (const iataCode in iataCityDictionary) {
         if (iataCityDictionary[iataCode] === arrivalPoint.trim()) {
           arrivalPointIATA = iataCode;
-          console.log(`IATA Code for ${arrivalPoint}: ${iataCode}`);
-          break; // Assuming you want to stop the loop once you find the first match.
+          break;
         }
       }
-
-      console.log("depaturePointIATA: 3: ", departurePointIATA);
-      console.log("arrivalPointIATA: 3:", arrivalPointIATA);
       
       makeApiRequestTwo();
     }
-
-    
-
-/*    const responseLS2 = await AsyncStorage.getItem('response.data');
-    const responseLS3 = JSON.parse(responseLS2)
-    console.log('responseLS3:', responseLS3);
-    console.log('responseLS3.data:', responseLS3.data);
-    console.log('responseLS3.data.flights:', responseLS3.data.flights);
-    const flights = responseLS3.data.flights;
-
-    for (let i = 0; i < flights.length; i++) {
-
-      const flightsSegments = flights[i].segments;
-
-      const FlightSegmentssLegs = flightsSegments[0].legs;
-      const originStationCode = FlightSegmentssLegs[0].originStationCode;
-      console.log("FlightSegmentssLegs[0].originStationCode:", originStationCode);
-      const destinationStationCode = FlightSegmentssLegs[0].destinationStationCode;
-      console.log("FlightSegmentssLegs[0].originStationCode:", destinationStationCode);
-      const departureDateTime = FlightSegmentssLegs[0].departureDateTime;
-      console.log("FlightSegmentssLegs[0].departureDateTime:", departureDateTime);
-
-      const departureDateTimeNewDate = new Date(departureDateTime);
-      console.log("departureDateTimeNewDate:", departureDateTimeNewDate);
-
-      // Extract date components
-      const yearTwo = departureDateTimeNewDate.getFullYear();
-      const monthTwo = (departureDateTimeNewDate.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-      const dayTwo = departureDateTimeNewDate.getDate().toString().padStart(2, '0');
-      
-      // Extract time components
-      const hoursTwo = departureDateTimeNewDate.getHours().toString().padStart(2, '0');
-      const minutesTwo = departureDateTimeNewDate.getMinutes().toString().padStart(2, '0');
-      
-      // Format the date and time
-      const formatteddepartureDateTime= `${yearTwo}-${monthTwo}-${dayTwo} ${hoursTwo}:${minutesTwo}`;
-      console.log("formatteddepartureDateTime: ", formatteddepartureDateTime);
-
-
-      const arrivalDateTime = FlightSegmentssLegs[0].arrivalDateTime;
-      console.log("FlightSegmentssLegs[0].arrivalDateTime:", arrivalDateTime);
-      const arrivalDateTimeNewDate = new Date(arrivalDateTime);
-      console.log("arrivalDateTimeNewDate:", arrivalDateTimeNewDate);
-
-      // Extract date components
-      const year = arrivalDateTimeNewDate.getFullYear();
-      const month = (arrivalDateTimeNewDate.getMonth() + 1).toString().padStart(2, '0'); // Months are 0-based
-      const day = arrivalDateTimeNewDate.getDate().toString().padStart(2, '0');
-      
-      // Extract time components
-      const hours = arrivalDateTimeNewDate.getHours().toString().padStart(2, '0');
-      const minutes = arrivalDateTimeNewDate.getMinutes().toString().padStart(2, '0');
-      
-      // Format the date and time
-      const formattedarrivalDateTime= `${year}-${month}-${day} ${hours}:${minutes}`;
-      console.log("formattedarrivalDateTime: ", formattedarrivalDateTime);
-
-
-      const classOfService = FlightSegmentssLegs[0].classOfService;
-      console.log("FlightSegmentssLegs[0].classOfService:", classOfService);
-      const equipmentId = FlightSegmentssLegs[0].equipmentId;
-      console.log("FlightSegmentssLegs[0].equipmentId:", equipmentId);    
-      const flightNumber = FlightSegmentssLegs[0].flightNumber;
-      console.log("FlightSegmentssLegs[0].flightNumber:", flightNumber);    
-      const distanceInKM = FlightSegmentssLegs[0].distanceInKM;
-      console.log("FlightSegmentssLegs[0].distanceInKM:", distanceInKM);    
-
-      const flightspurchaseLinks = flights[i].purchaseLinks;
-      const currency = flightspurchaseLinks[0].currency;
-      console.log("currency:", currency);   
-      const totalPrice = flightspurchaseLinks[0].totalPrice;
-      console.log("totalPrice:", totalPrice);   
-      const totalPricePerPassenger = flightspurchaseLinks[0].totalPricePerPassenger;
-      console.log("totalPricePerPassenger:", totalPricePerPassenger);
-      console.log(" ");   
-    
-    }*/
 
   }
 
@@ -286,16 +150,13 @@ const Search = () => {
       const date = new Date(newDate);
     
       const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so add 1
+      const month = String(date.getMonth() + 1).padStart(2, '0'); 
       const day = String(date.getDate()).padStart(2, '0');
       const depatureDateformatted = `${year}-${month}-${day}`;
-      console.log("depatureDateformattedxx: ", depatureDateformatted);
-      console.log("newDatexx: ", newDate);
-
 
       setDepartureDate(newDate);
       setShowPicker(false);
-      console.log("showPicker:", showPicker);
+
       setDepartureDate(newDate);
     } else if (event.type === 'dismissed') {
       setShowPicker(false);
@@ -307,11 +168,9 @@ const Search = () => {
       const date = new Date(newDate);
     
       const year = date.getFullYear();
-      const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so add 1
+      const month = String(date.getMonth() + 1).padStart(2, '0');
       const day = String(date.getDate()).padStart(2, '0');
       const depatureDateformatted = `${year}-${month}-${day}`;
-      console.log("depatureDateformatted: ", depatureDateformatted);
-
     
       setReturnDate(newDate);
       setShowReturnPicker(false);
@@ -327,14 +186,9 @@ const Search = () => {
     const date = new Date(depatureDate);
     
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so add 1
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const day = String(date.getDate()).padStart(2, '0');
     const depatureDateformatted = `${year}-${month}-${day}`;
-    console.log("depatureDateformatted: ", depatureDateformatted);
-    console.log("numberOfAdults: ", numberOfAdults);
-
-    console.log("departurePointIATA: ", departurePointIATA);
-    console.log("arrivalPointIATA: ", arrivalPointIATA);
   
     const options = {
       method: 'GET',
@@ -343,7 +197,7 @@ const Search = () => {
         sourceAirportCode: departurePointIATA,
         destinationAirportCode: arrivalPointIATA,
         date: depatureDateformatted,
-//        date:'2023-11-26',
+
         itineraryType: typevalue,
         sortOrder: 'PRICE',
         numAdults: numberOfAdults,
@@ -362,10 +216,6 @@ const Search = () => {
     try {
 
       const response = await axios.request(options);
-      console.log('API Response:', response.data);
-      console.log('API Response.data:', response.data.data);
-      console.log('API Response.data.complete:', response.data.data.complete);
-      console.log('API Response.data.flights:', response.data.data.flights);
 
       if (response.data.data.flights.length > 0){
         await AsyncStorage.setItem('flights', JSON.stringify(response.data.data.flights));
@@ -375,48 +225,32 @@ const Search = () => {
         });
       }
 
-/*      const flightszzz = await AsyncStorage.getItem('flights');
-      console.log("flightszzz", flightszzz)
-      navigation.navigate('Flights', {
-        flights: JSON.parse(flightszzz),
-        jwtToken: jwtToken
-      });*/
-
-       
-
     } catch (error) {
       console.error('API Request Error:', error);
     }
   finally {
-    setLoading(false); // Set loading to false whether the request succeeds or fails
+    setLoading(false); 
   }
   };
 
 
   const makeApiRequestTwo = async () => {
     setLoading(true);
-    console.log("makeApiRequestTwo!");
 
     const date = new Date(returnDate);
     
     const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so add 1
+    const month = String(date.getMonth() + 1).padStart(2, '0'); 
     const day = String(date.getDate()).padStart(2, '0');
     const returnDateformatted = `${year}-${month}-${day}`;
-    console.log("returnDateformatted2: ", returnDateformatted);
 
     const dateTwo = new Date(depatureDate);
     
     const yearTwo = dateTwo.getFullYear();
-    const monthTwo = String(dateTwo.getMonth() + 1).padStart(2, '0'); // Month is 0-based, so add 1
+    const monthTwo = String(dateTwo.getMonth() + 1).padStart(2, '0'); 
     const dayTwo = String(dateTwo.getDate()).padStart(2, '0');
     const depatureDateformatted = `${yearTwo}-${monthTwo}-${dayTwo}`;
-    console.log("depatureDateformatted2: ", depatureDateformatted);
-    console.log("departurePoint: ", departurePoint);
-    console.log("arrivalPoint: ", arrivalPoint);
-    console.log("typevalue: ", typevalue);
-    console.log("numberOfAdults: ", numberOfAdults);
-    console.log("valueCOS:", valueCOS);
+
     const options = {
       method: 'GET',
       url: 'https://tripadvisor16.p.rapidapi.com/api/v1/flights/searchFlights',
@@ -424,14 +258,11 @@ const Search = () => {
         sourceAirportCode: departurePointIATA,
         destinationAirportCode: arrivalPointIATA,
         date: depatureDateformatted,
-//    date:'2023-11-28',
         itineraryType: typevalue,
         sortOrder: 'PRICE',
         numAdults: numberOfAdults,
         numSeniors: '0',
         classOfService: valueCOS,
-//        returnDate:'2023-11-29',
-
         returnDate: returnDateformatted,
         pageNumber: '1',
         currencyCode: 'USD'
@@ -441,18 +272,11 @@ const Search = () => {
         'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
       }
     };
-    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx9823420389:", options);
     
     try {
-      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx982342038922222222222s");
       const response = await axios.request(options);
-      console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxx982342038922223333333333333333333333s");
-      console.log("response.data: ", response.data);
-      console.log("response.data.data: ", response.data.data);
-      console.log("response.data.data.message: ", response.data.data.message);
-      console.log("response.data.data.flights: ", response.data.data.flights);
+
       const fligtSize = response.data.data.flights
-      console.log("response.data.data.flights.size: ", response.data.data.flights.length);
 
       if (response.data.data.flights.length > 0){
         navigation.navigate('Flights', {
@@ -464,7 +288,7 @@ const Search = () => {
     } catch (error) {
       console.error(error);
     }finally {
-      setLoading(false); // Set loading to false whether the request succeeds or fails
+      setLoading(false); 
     }
   };
 
@@ -477,7 +301,7 @@ const Search = () => {
 
   return (
     <View style={styles.container}>
-      {/* Loading indicator */}
+  
       {loading && <ActivityIndicator size="large" color="#45B39D" style={styles.loadingIndicator} />}
       
       <Text style={[styles.travelText, { marginTop: loading ? 40 : 80 }]}>Travel</Text>
@@ -584,15 +408,13 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-//      justifyContent: 'center',
+
       paddingHorizontal: 50,
     },
     input: {
       height: 40,
       borderColor: 'gray',
       borderWidth: 1,
-//      marginBottom: 10, // Add margin bottom to create space between input fields
-//      paddingHorizontal: 10, // Add horizontal padding to the input fields
       width: '90%',
       borderRadius: 6, 
       marginTop: 20,
@@ -606,11 +428,11 @@ const styles = StyleSheet.create({
       marginTop: 50
     },
     travelText: {
-      fontSize: 18, // You can adjust the font size as needed
-      fontWeight: 'bold', // You can adjust the font weight as needed
-      marginBottom: 20, // You can adjust the margin bottom as needed
-      alignSelf: 'flex-start', // Align the text to the start (left)
-      marginLeft: 25, // Adjust the margin from the left edge
+      fontSize: 18, 
+      fontWeight: 'bold',
+      marginBottom: 20,
+      alignSelf: 'flex-start', 
+      marginLeft: 25, 
       marginTop: 80,
       marginBottom: 10,
       color: '#45B39D',
@@ -656,8 +478,6 @@ const styles = StyleSheet.create({
       height: 20,
       borderColor: 'gray',
       borderWidth: 1,
-//      marginBottom: 10, // Add margin bottom to create space between input fields
-//      paddingHorizontal: 10, // Add horizontal padding to the input fields
       width: '90%',
       borderRadius: 6, 
       marginTop: 20,
@@ -668,8 +488,6 @@ const styles = StyleSheet.create({
       height: 20,
       borderColor: 'gray',
       borderWidth: 1,
-//      marginBottom: 10, // Add margin bottom to create space between input fields
-//      paddingHorizontal: 10, // Add horizontal padding to the input fields
       width: '90%',
       borderRadius: 6, 
       marginTop: 50,
@@ -686,57 +504,3 @@ const styles = StyleSheet.create({
 
 
 export default Search;
-
-/* 
-
-    <Text >Select an option COS:</Text>
-      
-      <DropDownPicker 
-        style={styles.input}
-        open={openCOS}
-        value={valueCOS}
-        items={itemsCOS}
-        setOpen={setOpenCOS}
-        setValue={setValueCOS}
-        setItems={setItemsCOS}
-      />
-
-      
-<Text >Select an option:</Text>
-      
-      <DropDownPicker
-        open={open}
-        value={typevalue}
-        items={items}
-        setOpen={setOpen}
-        setValue={setTypeValue}
-        setItems={setItems}
-      />
-      
-      <TextInput placeholder="Number of adults:"
-      value={numberOfAdults}
-      onChangeText={handleNumberChange}
-
-      />
-      
-      {typevalue === 'ROUND_TRIP' && (
-        <>
-          <Button title="Open Return Date Picker" onPress={() => setShowReturnPicker(true)} />
-          {showReturnPicker && (
-            <DateTimePicker
-              value={returnDate}
-              mode="date"
-              is24Hour={true}
-              display="default"
-              onChange={handleReturnDateChange}
-            />
-          )}
-        </>
-        )}
-      
-      {returnDate ? <Text>Selected Return Date: {returnDate.toLocaleDateString()}</Text> : null}
-*/
-
-/*
-
-*/
